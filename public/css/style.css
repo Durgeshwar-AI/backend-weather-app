@@ -1,0 +1,99 @@
+body {
+  padding: 0%;
+  margin: 0%;
+  background-color: rgb(7, 229, 254);
+  color: aliceblue;
+}
+
+.heading {
+  margin: auto;
+  text-align: center;
+  width: 40vw;
+  color: black;
+  text-shadow: 2px 0px 0px 1px;
+  color: rgb(0, 13, 255);
+}
+.container {
+  background-image: url("/images/back.jpeg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  text-align: center;
+  margin-top: 25px;
+  margin: auto;
+  padding: 10px;
+}
+.search {
+  display: flex;
+  justify-content: center;
+  justify-self: center;
+}
+#searchicon {
+  border: 0px;
+  margin-left: 5px;
+}
+#search-box {
+  border-radius: 20px;
+  height: 20px;
+  width: 45vw;
+  text-align: center;
+}
+#search-box::placeholder {
+  text-align: center;
+}
+.others {
+  padding: 20px;
+  /* text-align: center; */
+  place-items: center;
+}
+.oc {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  /* border: 2px solid red; */
+  margin: 20px;
+}
+.oc img {
+  grid-column: 4;
+}
+.oc div {
+  grid-column: 5;
+  /* margin-top: 5px; */
+  flex-shrink: 0.1;
+  min-width: 100px;
+  margin-left: 10px;
+}
+#location {
+  background-color: rgb(0, 255, 153);
+  width: fit-content;
+  min-height: 50px;
+  height: fit-content;
+  padding: 5px;
+  font-weight: 800;
+  border-radius: 50px;
+  border: 0px;
+}
+@media screen and (min-width: 1000px) {
+  .container {
+    width: 50vw;
+  }
+}
+@media screen and (min-width: 700px) and (max-width: 1000px) {
+  .container {
+    width: 70vw;
+  }
+}
+@media screen and (max-width: 700px) {
+  .container {
+    margin-top: 0;
+    width: 100vw;
+  }
+}
+@media screen and (min-width: 500px) {
+  .others {
+    display: flex;
+  }
+}
+@media screen and (max-width: 300px) {
+  #location {
+    font-size: 60%;
+  }
+}
