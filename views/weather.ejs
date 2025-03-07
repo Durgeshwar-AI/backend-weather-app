@@ -25,21 +25,21 @@
         </div>
         <div class="info child">
           <h2 id="city"><%= weather.city %></h2>
-          <h4 id="temp">22°C</h4>
+          <h4 id="temp"><%= weather.temperature%></h4>
         </div>
         <div class="others">
           <div class="humidity oc">
             <img src="/images/humidity.png" alt="humidity" width="80px">
             <div>
               <h3>Humidity</h3>
-              <h4 id="humid">50%</h4>
+              <h4 id="humid"><% weather.humidity %></h4>
             </div>
           </div>
           <div class="wind oc">
             <img src="/images/wind.png" alt="wind" width="100px">
             <div>
               <h3>Wind Speed</h3>
-              <h4 id="speed">10 km/hr</h4>
+              <h4 id="speed"><% weather.windSpeed %></h4>
             </div>
           </div>
         </div>

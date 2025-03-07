@@ -1,12 +1,13 @@
-const key = "9f23b56e8dcad8299bf4e5a2a3fc932b";
-const baseUrl = "https://api.openweathermap.org/data/2.5/weather";
+import axios from "axios";
 
 let icon = document.getElementById("searchicon");
 let inp = document.getElementById("search-box");
 let search;
 icon.addEventListener("click", function () {
   search = inp.value;
-  weather(search);
+  const weather=async ()=>{
+    const response = await axios.post()
+  }
 });
 inp.addEventListener("keypress", function (event) {
   if (event.key === "Enter") {
@@ -15,15 +16,6 @@ inp.addEventListener("keypress", function (event) {
   }
 });
 
-var data;
-const weather = async (city) => {
-  const response = await fetch(
-    `${baseUrl}?q=${city}&appid=${key}&units=metric`
-  );
-  data = await response.json();
-  console.log(data);
-  execute();
-};
 function execute() {
   document.getElementById("city").innerText = data.name;
   document.getElementById("temp").innerHTML = data.main.temp + "°C";
