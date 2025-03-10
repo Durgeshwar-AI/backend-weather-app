@@ -5,22 +5,24 @@ let inp = document.getElementById("search-box");
 let search;
 icon.addEventListener("click", function () {
   search = inp.value;
-  const weather=async ()=>{
-    const response = await axios.post()
-  }
+  const weather = async () => {
+    const response = await axios.post("/", {
+      city: search,
+    });
+  };
 });
 inp.addEventListener("keypress", function (event) {
   if (event.key === "Enter") {
     search = inp.value;
-    weather(search);
+    const weather = async () => {
+      const response = await axios.post("/", {
+        city: search,
+      });
+    };
   }
 });
 
 function execute() {
-  document.getElementById("city").innerText = data.name;
-  document.getElementById("temp").innerHTML = data.main.temp + "°C";
-  document.getElementById("humid").innerHTML = data.main.humidity + "%";
-  document.getElementById("speed").innerHTML = data.wind.speed + " km/hr";
   let image = document.getElementById("picture");
   let status = data.weather[0].main;
   if (status === "Clouds") {

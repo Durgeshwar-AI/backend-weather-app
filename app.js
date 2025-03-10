@@ -1,6 +1,7 @@
 import express from "express";
 import { config } from "dotenv";
 import path from "path";
+import axios from "axios";
 
 config();
 const app = express();
@@ -25,15 +26,19 @@ app.get("/", (req, res) => {
     humidity: hum || "50%",
     windSpeed: wind || "10 km/hr",
   };
+  res.render("weather", { weather: weatherData });
+});
+
+app.post("/", (req, res) => {
   var data;
   const weather = async (city) => {
-    const response = await fetch(
+    const response = await axios.get(
       `${URL}?q=${req.city}&appid=${KEY}&units=metric`
     );
     data = await response.json();
     console.log(data);
   };
-  res.render("weather", { weather: weatherData });
+  weather(req.body.city);
 });
 
 app.listen(PORT, () => {
