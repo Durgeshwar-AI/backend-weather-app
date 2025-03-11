@@ -14,31 +14,56 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(process.cwd(), "public")));
 app.set("view engine", "ejs");
 
-app.get("/", (req, res) => {
-  let city;
-  let temp;
-  let hum;
-  let wind;
+app.get("/", async (req, res) => {
+  try {
+    const response = await axios.get(
+      `${URL}?q=New Delhi&appid=${KEY}&units=metric`
+    );
+    const data = response.data;
 
-  const weatherData = {
-    city: city || "New Delhi",
-    temperature: temp || "22°C",
-    humidity: hum || "50%",
-    windSpeed: wind || "10 km/hr",
-  };
-  res.render("weather", { weather: weatherData });
+    const weatherData = {
+      city: data.name,
+      temperature: `${data.main.temp}°C`,
+      humidity: `${data.main.humidity}%`,
+      windSpeed: `${data.wind.speed} km/hr`,
+    };
+
+    res.render("weather", { weather: weatherData });
+  } catch (error) {
+    console.error("Error fetching default weather data:", error);
+    res.render("weather", {
+      weather: {
+        city: "Unknown",
+        temperature: "N/A",
+        humidity: "N/A",
+        windSpeed: "N/A",
+      },
+    });
+  }
 });
 
-app.post("/", (req, res) => {
-  var data;
-  const weather = async (city) => {
+app.post("/", async (req, res) => {
+  try {
+    const { city } = req.body;
     const response = await axios.get(
-      `${URL}?q=${req.city}&appid=${KEY}&units=metric`
+      `${URL}?q=${city}&appid=${KEY}&units=metric`
     );
-    data = await response.json();
-    console.log(data);
-  };
-  weather(req.body.city);
+    const data = response.data;
+
+    const weatherData = {
+      city: data.name,
+      temperature: `${data.main.temp}°C`,
+      humidity: `${data.main.humidity}%`,
+      windSpeed: `${data.wind.speed} km/hr`,
+      weather: data.weather,
+    };
+    console.log(weatherData);
+
+    res.json(weatherData);
+  } catch (error) {
+    console.error("Error fetching weather data:", error);
+    res.status(500).json({ error: "Failed to fetch weather data" });
+  }
 });
 
 app.listen(PORT, () => {
