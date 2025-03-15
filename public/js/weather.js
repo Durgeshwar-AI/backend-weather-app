@@ -1,5 +1,3 @@
-import axios from "axios";
-
 let icon = document.getElementById("searchicon");
 let inp = document.getElementById("search-box");
 let image = document.getElementById("picture");
@@ -7,7 +5,7 @@ let loc = document.getElementById("location");
 
 async function fetchWeather(city) {
   try {
-    const response = await axios.post("/", { city });
+    const response = await axios.post("/api/v1/weather", { city });
     updateUI(response.data);
   } catch (error) {
     console.error("Error fetching weather data:", error);
@@ -52,12 +50,11 @@ inp.addEventListener("keypress", (event) => {
 loc.addEventListener("click", () => {
   navigator.geolocation.getCurrentPosition(async (position) => {
     try {
-      let { latitude, longitude } = position.coords;
-      let response = await fetch(
-        `https://api.openweathermap.org/geo/1.0/reverse?lat=${latitude}&lon=${longitude}&appid=${key}&units=metric`
-      );
-      let data = await response.json();
-      if (data.length > 0) fetchWeather(data[0].name);
+      let response = await axios.post("/api/v1/latweather", { 
+        latitude: position.coords.latitude, 
+        longitude: position.coords.longitude 
+      });
+      updateUI(response.data);
     } catch (error) {
       console.error("Location error:", error);
     }

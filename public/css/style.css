@@ -1,99 +1,158 @@
+/* General Styling */
 body {
-  padding: 0%;
-  margin: 0%;
+  margin: 0;
+  padding: 0;
   background-color: rgb(7, 229, 254);
   color: aliceblue;
+  font-family: Arial, sans-serif;
 }
 
+/* Heading */
 .heading {
-  margin: auto;
+  margin: 20px auto;
   text-align: center;
-  width: 40vw;
-  color: black;
-  text-shadow: 2px 0px 0px 1px;
+  width: 50vw;
   color: rgb(0, 13, 255);
+  font-size: 2rem;
+  font-weight: bold;
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
 }
+
+/* Container */
 .container {
   background-image: url("/images/back.jpeg");
   background-repeat: no-repeat;
   background-size: cover;
   text-align: center;
-  margin-top: 25px;
-  margin: auto;
-  padding: 10px;
+  margin: 25px auto;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
 }
-.search {
+
+/* Search Bar */
+#search {
   display: flex;
   justify-content: center;
-  justify-self: center;
+  align-items: center;
+  gap: 10px;
+  margin: 20px 0;
 }
-#searchicon {
-  border: 0px;
-  margin-left: 5px;
-}
+
 #search-box {
-  border-radius: 20px;
-  height: 20px;
-  width: 45vw;
+  border-radius: 25px;
+  height: 40px;
+  width: 60vw;
+  max-width: 400px;
   text-align: center;
+  font-size: 1rem;
+  border: 2px solid rgba(0, 0, 0, 0.2);
+  padding: 5px 15px;
+  outline: none;
+  transition: 0.3s;
 }
-#search-box::placeholder {
-  text-align: center;
+
+#search-box:focus {
+  border-color: rgb(0, 13, 255);
+  box-shadow: 0px 0px 8px rgba(0, 13, 255, 0.5);
 }
+
+#searchicon {
+  background-color: rgb(0, 13, 255);
+  color: white;
+  padding: 10px;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+#searchicon:hover {
+  background-color: rgb(0, 5, 200);
+}
+
+/* Weather Details */
 .others {
   padding: 20px;
-  /* text-align: center; */
-  place-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 15px;
 }
+
+/* Weather Data Layout */
 .oc {
-  display: grid;
-  grid-template-columns: repeat(8, 1fr);
-  /* border: 2px solid red; */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
   margin: 20px;
 }
+
 .oc img {
-  grid-column: 4;
+  width: 60px;
+  height: 60px;
 }
+
 .oc div {
-  grid-column: 5;
-  /* margin-top: 5px; */
-  flex-shrink: 0.1;
-  min-width: 100px;
-  margin-left: 10px;
+  font-size: 1.2rem;
+  font-weight: bold;
 }
+
+/* Location Button */
 #location {
   background-color: rgb(0, 255, 153);
+  color: black;
+  font-size: 1rem;
+  font-weight: bold;
   width: fit-content;
   min-height: 50px;
-  height: fit-content;
-  padding: 5px;
-  font-weight: 800;
+  padding: 10px 20px;
   border-radius: 50px;
-  border: 0px;
+  border: none;
+  cursor: pointer;
+  transition: 0.3s;
+  box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2);
 }
+
+#location:hover {
+  background-color: rgb(0, 200, 120);
+  box-shadow: 2px 2px 12px rgba(0, 0, 0, 0.3);
+}
+
+/* Responsive Design */
 @media screen and (min-width: 1000px) {
   .container {
     width: 50vw;
   }
 }
+
 @media screen and (min-width: 700px) and (max-width: 1000px) {
   .container {
     width: 70vw;
   }
 }
+
 @media screen and (max-width: 700px) {
+  .heading h1{
+    font-size: 5rem;
+  }
   .container {
-    margin-top: 0;
-    width: 100vw;
+    margin-top: 10px;
+    width: 90vw;
+    padding: 15px;
   }
 }
+
 @media screen and (min-width: 500px) {
   .others {
     display: flex;
   }
 }
+
 @media screen and (max-width: 300px) {
   #location {
-    font-size: 60%;
+    font-size: 80%;
+    padding: 5px 10px;
   }
 }
