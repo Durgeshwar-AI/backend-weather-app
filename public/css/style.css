@@ -1,5 +1,6 @@
 /* General Styling */
 body {
+  text-transform: capitalize;
   margin: 0;
   padding: 0;
   background-color: rgb(7, 229, 254);

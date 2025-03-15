@@ -5,34 +5,47 @@ let loc = document.getElementById("location");
 
 async function fetchWeather(city) {
   try {
-    const response = await axios.post("/api/v1/weather", { city });
-    updateUI(response.data);
+    const response = await fetch(`/api/v1/weather?city=${encodeURIComponent(city)}`);
+    if (!response.ok) throw new Error("Failed to fetch data");
+    const data = await response.json();
+    updateUI(data);
   } catch (error) {
     console.error("Error fetching weather data:", error);
+    showError();
+  }
+}
+
+async function fetchWeatherByLocation(lat, lon) {
+  try {
+    const response = await fetch(`/api/v1/latweather?lat=${lat}&lon=${lon}`);
+    if (!response.ok) throw new Error("Failed to fetch data");
+    const data = await response.json();
+    updateUI(data);
+  } catch (error) {
+    console.error("Location error:", error);
+    showError();
   }
 }
 
 function updateUI(data) {
-  document.getElementById("city").innerText = data.city;
-  document.getElementById("temp").innerText = data.temperature;
-  document.getElementById("humid").innerText = data.humidity;
-  document.getElementById("speed").innerText = data.windSpeed;
+  document.getElementById("byline").innerText = data.weather[0].description;
+  document.getElementById("city").innerText = data.name;
+  document.getElementById("temp").innerText = `${data.main.temp}°C`;
+  document.getElementById("humid").innerText = `${data.main.humidity}%`;
+  document.getElementById("speed").innerText = `${data.wind.speed} km/hr`;
 
-  let status = data.weather[0].main;
-  let images = {
-    Clouds: "./images/cloudy.png",
-    Rain: "./images/rainy.png",
-    Clear: "./images/clear.png",
-    Snow: "./images/snowy.png",
-    Sunny: "./images/sunny.png",
-    Thunderstorm: "./images/thunderstrom.png",
-    Drizzle: "./images/drizzle.png",
-    Mist: "./images/mist.png",
-    Haze: "./images/mist.png",
-    Fog: "./images/mist.png",
-  };
+  let iconCode = data.weather[0].icon;
+  let imgUrl = `https://openweathermap.org/img/wn/${iconCode}@2x.png`;
+  document.getElementById("picture").src = imgUrl;
+}
 
-  image.src = images[status] || "./images/default.png";
+function showError() {
+  document.getElementById("byline").innerText = "Error!";
+  document.getElementById("city").innerText = "Error!";
+  document.getElementById("temp").innerText = "N/A";
+  document.getElementById("humid").innerText = "N/A";
+  document.getElementById("speed").innerText = "N/A";
+  image.src = "./images/error.png";
 }
 
 icon.addEventListener("click", () => {
@@ -48,22 +61,8 @@ inp.addEventListener("keypress", (event) => {
 });
 
 loc.addEventListener("click", () => {
-  navigator.geolocation.getCurrentPosition(async (position) => {
-    try {
-      let response = await axios.post("/api/v1/latweather", { 
-        latitude: position.coords.latitude, 
-        longitude: position.coords.longitude 
-      });
-      updateUI(response.data);
-    } catch (error) {
-      console.error("Location error:", error);
-    }
-  }, () => {
-    document.getElementById("heading").remove();
-    document.getElementById("container").innerHTML = `
-      <h2>Error</h2>
-      <p>Could not fetch location.</p>
-      <button onclick="location.reload()">Click to refresh</button>
-    `;
-  });
+  navigator.geolocation.getCurrentPosition(
+    (position) => fetchWeatherByLocation(position.coords.latitude, position.coords.longitude),
+    () => showError()
+  );
 });
