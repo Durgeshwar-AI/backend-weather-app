@@ -24,9 +24,9 @@ app.get("/", async (req, res) => {
 
     const weatherData = {
       city: data.name,
-      temperature: `${data.main.temp}°C`,
-      humidity: `${data.main.humidity}%`,
-      windSpeed: `${data.wind.speed} km/hr`,
+      temperature: `${data.main.temp}`,
+      humidity: `${data.main.humidity}`,
+      windSpeed: `${data.wind.speed}`,
       icon: `https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`,
       type: data.weather[0].main
     };
@@ -69,17 +69,9 @@ app.post("/api/v1/latweather", async (req, res) => {
       `${URL}?lat=${latitude}&lon=${longitude}&appid=${KEY}&units=metric`
     );
     const data = response.data;
+    console.log(data);
 
-    const weatherData = {
-      city: data.name,
-      temperature: `${data.main.temp}°C`,
-      humidity: `${data.main.humidity}%`,
-      windSpeed: `${data.wind.speed} km/hr`,
-      weather: data.weather,
-    };
-    console.log(weatherData);
-
-    res.json(weatherData);
+    res.json(data);
   } catch (error) {
     console.error("Error fetching weather data:", error);
     res.status(500).json({ error: "Failed to fetch weather data" });
