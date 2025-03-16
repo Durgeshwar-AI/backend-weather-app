@@ -13,26 +13,13 @@ async function fetchWeather(city) {
 }
 
 function updateUI(data) {
-  document.getElementById("city").innerText = data.city;
-  document.getElementById("temp").innerText = data.temperature;
-  document.getElementById("humid").innerText = data.humidity;
-  document.getElementById("speed").innerText = data.windSpeed;
-
-  let status = data.weather[0].main;
-  let images = {
-    Clouds: "./images/cloudy.png",
-    Rain: "./images/rainy.png",
-    Clear: "./images/clear.png",
-    Snow: "./images/snowy.png",
-    Sunny: "./images/sunny.png",
-    Thunderstorm: "./images/thunderstrom.png",
-    Drizzle: "./images/drizzle.png",
-    Mist: "./images/mist.png",
-    Haze: "./images/mist.png",
-    Fog: "./images/mist.png",
-  };
-
-  image.src = images[status] || "./images/default.png";
+  document.getElementById("city").innerText = data.name;
+  document.getElementById("temp").innerText = data.main.temp;
+  document.getElementById("humid").innerText = data.main.humidity;
+  document.getElementById("speed").innerText = data.wind.speed;
+  let icon = `https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`;
+  document.getElementById("type").innerText = data.weather[0].main
+  image.src = icon;
 }
 
 icon.addEventListener("click", () => {

@@ -22,7 +22,8 @@
           </button>
         </div>
         <div class="picture child">
-          <img src="/images/cloudy.png" alt="weather-picture" id="picture" height="225px" width="225px">
+          <figcaption id="type"><%= weather.type  %></figcaption>
+          <img src=<%= weather.icon %> alt="weather-picture" id="picture" height="225px" width="225px">
         </div>
         <div class="info child">
           <h2 id="city"><%= weather.city %></h2>

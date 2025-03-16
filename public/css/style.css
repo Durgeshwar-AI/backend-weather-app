@@ -80,11 +80,33 @@ body {
   gap: 15px;
 }
 
+.picture {
+  position: relative;
+  display: inline-block;
+  text-align: center;
+}
+
+#type {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: white;
+  padding: 8px 12px;
+  border-radius: 5px;
+  font-size: 1rem;
+  font-weight: bold;
+  text-align: center;
+  width: max-content;
+  max-width: 90%;
+}
+
+
 /* Weather Data Layout */
 .oc {
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-around;
   gap: 15px;
   margin: 20px;
 }

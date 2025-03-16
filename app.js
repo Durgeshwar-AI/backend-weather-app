@@ -27,6 +27,8 @@ app.get("/", async (req, res) => {
       temperature: `${data.main.temp}°C`,
       humidity: `${data.main.humidity}%`,
       windSpeed: `${data.wind.speed} km/hr`,
+      icon: `https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`,
+      type: data.weather[0].main
     };
 
     res.render("weather", { weather: weatherData });
@@ -38,6 +40,7 @@ app.get("/", async (req, res) => {
         temperature: "N/A",
         humidity: "N/A",
         windSpeed: "N/A",
+        icon: "https://openweathermap.org/img/wn/10d@2x.png",
       },
     });
   }
@@ -50,17 +53,9 @@ app.post("/api/v1/weather", async (req, res) => {
       `${URL}?q=${city}&appid=${KEY}&units=metric`
     );
     const data = response.data;
+    console.log(data);
 
-    const weatherData = {
-      city: data.name,
-      temperature: `${data.main.temp}°C`,
-      humidity: `${data.main.humidity}%`,
-      windSpeed: `${data.wind.speed} km/hr`,
-      weather: data.weather,
-    };
-    console.log(weatherData);
-
-    res.json(weatherData);
+    res.json(data);
   } catch (error) {
     console.error("Error fetching weather data:", error);
     res.status(500).json({ error: "Failed to fetch weather data" });
