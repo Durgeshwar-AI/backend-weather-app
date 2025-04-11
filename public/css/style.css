@@ -201,12 +201,17 @@ nav {
 }
 
 .date {
-  display: flex;
-  justify-content: space-around;
+  display: grid;
+  grid-template-columns: repeat(3,1fr);
+  place-items: center;
   align-items: center;
   flex-wrap: wrap;
   gap: 0.5rem;
   text-align: center;
+}
+
+.date .area{
+  display: flex;
 }
 
 .icon {

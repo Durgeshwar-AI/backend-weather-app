@@ -3,9 +3,16 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="This is a weather app that can give the weather data of any city, state, territory, country. It returns the temperature, wind speed, and humidity of the place entered and it can also check the user's location to give the weather of the city near them.">
+    <meta
+      name="description"
+      content="This is a weather app that can give the weather data of any city, state, territory, country. It returns the temperature, wind speed, and humidity of the place entered and it can also check the user's location to give the weather of the city near them."
+    />
     <link rel="stylesheet" href="/css/style.css" />
-    <link rel="shortcut icon" href="/images/weather-app.png" type="image/x-icon" />
+    <link
+      rel="shortcut icon"
+      href="/images/weather-app.png"
+      type="image/x-icon"
+    />
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <title>Weather App</title>
   </head>
@@ -19,19 +26,79 @@
         </div>
       </div>
       <div class="search">
-        <input type="text" placeholder="Enter city" id="search-input"/>
+        <input type="text" placeholder="Enter city" id="search-input" />
         <i class="search-icon">
-          <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="50" height="50" viewBox="0 0 50 50">
-            <path d="M 21 3 C 11.621094 3 4 10.621094 4 20 C 4 29.378906 11.621094 37 21 37 C 24.710938 37 28.140625 35.804688 30.9375 33.78125 L 44.09375 46.90625 L 46.90625 44.09375 L 33.90625 31.0625 C 36.460938 28.085938 38 24.222656 38 20 C 38 10.621094 30.378906 3 21 3 Z M 21 5 C 29.296875 5 36 11.703125 36 20 C 36 28.296875 29.296875 35 21 35 C 12.703125 35 6 28.296875 6 20 C 6 11.703125 12.703125 5 21 5 Z"></path>
-            </svg>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            x="0px"
+            y="0px"
+            width="50"
+            height="50"
+            viewBox="0 0 50 50"
+          >
+            <path
+              d="M 21 3 C 11.621094 3 4 10.621094 4 20 C 4 29.378906 11.621094 37 21 37 C 24.710938 37 28.140625 35.804688 30.9375 33.78125 L 44.09375 46.90625 L 46.90625 44.09375 L 33.90625 31.0625 C 36.460938 28.085938 38 24.222656 38 20 C 38 10.621094 30.378906 3 21 3 Z M 21 5 C 29.296875 5 36 11.703125 36 20 C 36 28.296875 29.296875 35 21 35 C 12.703125 35 6 28.296875 6 20 C 6 11.703125 12.703125 5 21 5 Z"
+            ></path>
+          </svg>
         </i>
         <i class="search-icon">
-          <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="256" height="256" viewBox="0 0 256 256" xml:space="preserve">
-            <g style="stroke: none; stroke-width: 0; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill: none; fill-rule: nonzero; opacity: 1;" transform="translate(1.4065934065934016 1.4065934065934016) scale(2.81 2.81)">
-              <path d="M 45 90 c -1.415 0 -2.725 -0.748 -3.444 -1.966 l -4.385 -7.417 C 28.167 65.396 19.664 51.02 16.759 45.189 c -2.112 -4.331 -3.175 -8.955 -3.175 -13.773 C 13.584 14.093 27.677 0 45 0 c 17.323 0 31.416 14.093 31.416 31.416 c 0 4.815 -1.063 9.438 -3.157 13.741 c -0.025 0.052 -0.053 0.104 -0.08 0.155 c -2.961 5.909 -11.41 20.193 -20.353 35.309 l -4.382 7.413 C 47.725 89.252 46.415 90 45 90 z" style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill: rgb(0,0,0); fill-rule: nonzero; opacity: 1;" transform=" matrix(1 0 0 1 0 0) " stroke-linecap="round"/>
-              <path d="M 45 45.678 c -8.474 0 -15.369 -6.894 -15.369 -15.368 S 36.526 14.941 45 14.941 c 8.474 0 15.368 6.895 15.368 15.369 S 53.474 45.678 45 45.678 z" style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill: rgb(255,255,255); fill-rule: nonzero; opacity: 1;" transform=" matrix(1 0 0 1 0 0) " stroke-linecap="round"/>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            xmlns:xlink="http://www.w3.org/1999/xlink"
+            version="1.1"
+            width="256"
+            height="256"
+            viewBox="0 0 256 256"
+            xml:space="preserve"
+          >
+            <g
+              style="
+                stroke: none;
+                stroke-width: 0;
+                stroke-dasharray: none;
+                stroke-linecap: butt;
+                stroke-linejoin: miter;
+                stroke-miterlimit: 10;
+                fill: none;
+                fill-rule: nonzero;
+                opacity: 1;
+              "
+              transform="translate(1.4065934065934016 1.4065934065934016) scale(2.81 2.81)"
+            >
+              <path
+                d="M 45 90 c -1.415 0 -2.725 -0.748 -3.444 -1.966 l -4.385 -7.417 C 28.167 65.396 19.664 51.02 16.759 45.189 c -2.112 -4.331 -3.175 -8.955 -3.175 -13.773 C 13.584 14.093 27.677 0 45 0 c 17.323 0 31.416 14.093 31.416 31.416 c 0 4.815 -1.063 9.438 -3.157 13.741 c -0.025 0.052 -0.053 0.104 -0.08 0.155 c -2.961 5.909 -11.41 20.193 -20.353 35.309 l -4.382 7.413 C 47.725 89.252 46.415 90 45 90 z"
+                style="
+                  stroke: none;
+                  stroke-width: 1;
+                  stroke-dasharray: none;
+                  stroke-linecap: butt;
+                  stroke-linejoin: miter;
+                  stroke-miterlimit: 10;
+                  fill: rgb(0, 0, 0);
+                  fill-rule: nonzero;
+                  opacity: 1;
+                "
+                transform=" matrix(1 0 0 1 0 0) "
+                stroke-linecap="round"
+              />
+              <path
+                d="M 45 45.678 c -8.474 0 -15.369 -6.894 -15.369 -15.368 S 36.526 14.941 45 14.941 c 8.474 0 15.368 6.895 15.368 15.369 S 53.474 45.678 45 45.678 z"
+                style="
+                  stroke: none;
+                  stroke-width: 1;
+                  stroke-dasharray: none;
+                  stroke-linecap: butt;
+                  stroke-linejoin: miter;
+                  stroke-miterlimit: 10;
+                  fill: rgb(255, 255, 255);
+                  fill-rule: nonzero;
+                  opacity: 1;
+                "
+                transform=" matrix(1 0 0 1 0 0) "
+                stroke-linecap="round"
+              />
             </g>
-            </svg>
+          </svg>
         </i>
       </div>
     </nav>
@@ -40,124 +107,74 @@
         <div class="weather">
           <div>
             <h2 class="Place">Delhi</h2>
-            <h3 class="temp"><%= weather.current.temperature %>&#176; C</h3>
-            <p>Feels Like <%= weather.current.apparentTemperature  %>&#176; c</p>
-            <p>2c/-5c</p>
-            <p><%= weather.daily.type  %></p>
+            <h3 class="temp"><%= weather.current.temperature %>&#176;C</h3>
+            <p>Feels Like <%= weather.current.apparentTemperature %>&#176;C</p>
+            <p>
+              <%= weather.daily.max[0].toFixed(2) %>&#176;C/<%=
+              weather.daily.min[0].toFixed(2) %>&#176;C
+            </p>
+            <p><%= weather.daily.type %></p>
           </div>
           <div>
             <div>
-              <p>Tuesday</p>
-              <p>23rd February 2025</p>
+              <p><%= weather.day %></p>
+              <p><%= weather.date %></p>
             </div>
-            <div>Last updated: <p>12.15pm</p></div>
+            <div>
+              Last updated:
+              <p><%= weather.updated %></p>
+            </div>
           </div>
         </div>
         <div class="more">
           <div class="pressure">
-            <p>Pressure : </p>
-            <p>1000 mb</p>
+            <p>Pressure :</p>
+            <p><%= weather.current.pressure %> mb</p>
           </div>
           <div class="humidity">
-            <p>Humidity : </p>
+            <p>Humidity :</p>
             <p><%= weather.current.humidity %>%</p>
           </div>
           <div class="uv">
-            <p>UV index : </p>
+            <p>UV index :</p>
             <p><%= weather.daily.uv %></p>
           </div>
           <div class="wind">
-            <p>Wind : </p>
+            <p>Wind :</p>
             <p><%= weather.current.wind %> km/hr</p>
           </div>
         </div>
         <div class="hourly">
+          <%function convertTo12Hour(hour) { %> <% const suffix = hour >= 12 ?
+          ":00 PM" : ":00 AM"; %> <% const hour12 = ((hour + 11) % 12 + 1); %>
+          <% return `${hour12}${suffix}`; %> <% } %> <% for (let i = 0; i <
+          weather.hourly.temperature.length; i++) { %>
           <div class="hour">
-            <p class="time">12:00pm</p>
+            <p class="time"><%= convertTo12Hour(weather.hourly.hour[i]) %></p>
             <img src="/images/thermometer.png" alt="" class="icon" />
-            <p>2 c</p>
+            <p><%= weather.hourly.temperature[i].toFixed(2) %>&#176;c</p>
             <img src="/images/humidity.png" alt="" class="icon" />
-            <p>25%</p>
+            <p><%= weather.hourly.humidity[i] %>%</p>
           </div>
-          <div class="hour">
-            <p class="time">12:00pm</p>
-            <img src="/images/thermometer.png" alt="" class="icon" />
-            <p>2 c</p>
-            <img src="/images/humidity.png" alt="" class="icon" />
-            <p>25%</p>
-          </div>
-          <div class="hour">
-            <p class="time">12:00pm</p>
-            <img src="/images/thermometer.png" alt="" class="icon" />
-            <p>2 c</p>
-            <img src="/images/humidity.png" alt="" class="icon" />
-            <p>25%</p>
-          </div>
-          <div class="hour">
-            <p class="time">12:00pm</p>
-            <img src="/images/thermometer.png" alt="" class="icon" />
-            <p>2 c</p>
-            <img src="/images/humidity.png" alt="" class="icon" />
-            <p>25%</p>
-          </div>
-          <div class="hour">
-            <p class="time">12:00pm</p>
-            <img src="/images/thermometer.png" alt="" class="icon" />
-            <p>2 c</p>
-            <img src="/images/humidity.png" alt="" class="icon" />
-            <p>25%</p>
-          </div>
+          <% } %>
         </div>
         <div class="daily">
+          <% for (let i = 0; i < 7; i++) { %>
           <div class="date">
-            <h3 class="day">Today</h3>
-            <img src="/images/humidity.png" alt="" class="icon" />
-            <p>25%</p>
-            <img src="/images/thermometer.png" alt="" class="icon" />
-            <p>3c to 5c</p>
+            <h3 class="day"><%= weather.daily.time[i] %></h3>
+            <div class="area">
+              <img src="/images/humidity.png" alt="" class="icon" />
+              <p><%= Math.round(weather.daily.humidity[i]) %>%</p>
+            </div>
+            <div class="area">
+              <img src="/images/thermometer.png" alt="" class="icon" />
+              <p>
+                <%= Math.round(weather.daily.max[i]) %>&#176;C to <%=
+                Math.round(weather.daily.min[i]) %>&#176;C
+              </p>
+            </div>
           </div>
-          <div class="date">
-            <h3 class="day">Today</h3>
-            <img src="/images/humidity.png" alt="" class="icon" />
-            <p>25%</p>
-            <img src="/images/thermometer.png" alt="" class="icon" />
-            <p>3c to 5c</p>
-          </div>
-          <div class="date">
-            <h3 class="day">Today</h3>
-            <img src="/images/humidity.png" alt="" class="icon" />
-            <p>25%</p>
-            <img src="/images/thermometer.png" alt="" class="icon" />
-            <p>3c to 5c</p>
-          </div>
-          <div class="date">
-            <h3 class="day">Today</h3>
-            <img src="/images/humidity.png" alt="" class="icon" />
-            <p>25%</p>
-            <img src="/images/thermometer.png" alt="" class="icon" />
-            <p>3c to 5c</p>
-          </div>
-          <div class="date">
-            <h3 class="day">Today</h3>
-            <img src="/images/humidity.png" alt="" class="icon" />
-            <p>25%</p>
-            <img src="/images/thermometer.png" alt="" class="icon" />
-            <p>3c to 5c</p>
-          </div>
-          <div class="date">
-            <h3 class="day">Today</h3>
-            <img src="/images/humidity.png" alt="" class="icon" />
-            <p>25%</p>
-            <img src="/images/thermometer.png" alt="" class="icon" />
-            <p>3c to 5c</p>
-          </div>
-          <div class="date">
-            <h3 class="day">Today</h3>
-            <img src="/images/humidity.png" alt="" class="icon" />
-            <p>25%</p>
-            <img src="/images/thermometer.png" alt="" class="icon" />
-            <p>3c to 5c</p>
-          </div>
+          <% } %>
         </div>
       </div>
     </main>
