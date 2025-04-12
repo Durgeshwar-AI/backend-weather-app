@@ -90,11 +90,12 @@ function getFormattedDate(dateObj) {
   return `${day}${suffix} ${month} ${year}`;
 }
 
-function getFormattedTime(dateObj) {
+function getFormattedTime(dateObj, timezone) {
   return dateObj.toLocaleTimeString("en-IN", {
     hour: "2-digit",
     minute: "2-digit",
     hour12: true,
+    timeZone: timezone,
   });
 }
 
@@ -119,6 +120,7 @@ app.get("/", async (req, res) => {
     hourly: ["temperature_2m", "relative_humidity_2m"],
     forecast_days: 6,
     past_days: 1,
+    timezone: "auto",
   };
 
   try {
@@ -131,17 +133,18 @@ app.get("/", async (req, res) => {
     const hourly = response.hourly();
     const localTimestamp = (Number(current.time()) + utcOffsetSeconds) * 1000;
     const now = new Date(localTimestamp);
-    const hour = now.getHours();
+    const hour = now.getUTCHours();
+    const zone = response.timezone();
 
     const range = (start, stop, step) =>
       Array.from({ length: (stop - start) / step }, (_, i) => start + i * step);
 
     const weatherData = {
       current: {
-        time: now.toLocaleTimeString("en-IN", {
-          hour: "2-digit",
-          minute: "2-digit",
-        }),
+        time: (() => {
+          const date = new Date(Number(current.time()) * 1000);
+          return getFormattedTime(date, zone);
+        })(),
         temperature: current.variables(0).value().toFixed(2),
         humidity: current.variables(1).value(),
         wind: current.variables(2).value().toFixed(2),
@@ -155,7 +158,9 @@ app.get("/", async (req, res) => {
           daily.interval()
         ).map((t) => {
           const date = new Date((t + utcOffsetSeconds) * 1000);
-          return `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`;
+          return `${date.getDate()}/${
+            date.getMonth() + 1
+          }/${date.getFullYear()}`;
         }),
         uv: categorizeUV(daily.variables(0).valuesArray()),
         type: categorizeWeather(daily.variables(1).valuesArray()[0]),

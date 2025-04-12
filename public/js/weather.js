@@ -1,5 +1,5 @@
 let icon = document.getElementById("searchicon");
-let inp = document.getElementById("search-box");
+let inp = document.getElementById("search-input");
 let image = document.getElementById("picture");
 let loc = document.getElementById("location");
 
