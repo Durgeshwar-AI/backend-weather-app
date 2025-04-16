@@ -41,7 +41,7 @@
             ></path>
           </svg>
         </i>
-        <i class="search-icon">
+        <i class="search-icon" id="location-icon">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -107,8 +107,12 @@
         <div class="weather">
           <div>
             <h2 class="Place" id="place">Delhi</h2>
-            <h3 class="temp" id="place-temperature"><%= weather.current.temperature %>&#176;C</h3>
-            <p id="apparent">Feels Like <%= weather.current.apparentTemperature %>&#176;C</p>
+            <h3 class="temp" id="place-temperature">
+              <%= weather.current.temperature %>&#176;C
+            </h3>
+            <p id="apparent">
+              Feels Like <%= weather.current.apparentTemperature %>&#176;C
+            </p>
             <p id="place-max-min">
               <%= weather.daily.max[0].toFixed(2) %>&#176;C/<%=
               weather.daily.min[0].toFixed(2) %>&#176;C
@@ -178,5 +182,6 @@
         </div>
       </div>
     </main>
+    <script src="/js/weather.js"></script>
   </body>
 </html>

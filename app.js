@@ -226,71 +226,130 @@ app.post("/api/v1/weather", async (req, res) => {
 });
 
 app.post("/api/v1/latweather", async (req, res) => {
-  try {
-    const { latitude, longitude } = req.body;
-    const response = await axios.get(
-      `${URL}?lat=${latitude}&lon=${longitude}&appid=${KEY}&units=metric`
-    );
-    const data = response.data;
-    console.log(data);
+  const params = {
+    latitude: req.body.latitude,
+    longitude: req.body.longitude,
+    daily: [
+      "uv_index_max",
+      "weathercode",
+      "temperature_2m_max",
+      "temperature_2m_min",
+      "relative_humidity_2m_mean",
+    ],
+    current: [
+      "temperature_2m",
+      "relative_humidity_2m",
+      "wind_speed_10m",
+      "apparent_temperature",
+      "pressure_msl",
+    ],
+    hourly: ["temperature_2m", "relative_humidity_2m"],
+    forecast_days: 6,
+    past_days: 1,
+    timezone: "auto",
+  };
 
-    res.json(data);
+  let placeName = "Your Location";
+    try {
+      const reverseGeocodingUrl = `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${req.body.latitude}&lon=${req.body.longitude}`;
+      const geocodingResponse = await fetch(reverseGeocodingUrl);
+      const geocodingData = await geocodingResponse.json();
+
+      if (geocodingData && geocodingData.address) {
+        if (geocodingData.address.city) {
+          placeName = geocodingData.address.city;
+        } else if (geocodingData.address.town) {
+          placeName = geocodingData.address.town;
+        } else if (geocodingData.address.village) {
+          placeName = geocodingData.address.village;
+        } else if (geocodingData.address.county) {
+          placeName = geocodingData.address.county;
+        } else if (geocodingData.address.state) {
+          placeName = geocodingData.address.state;
+        } else if (geocodingData.address.country) {
+          placeName = geocodingData.address.country;
+        }
+      }
+    } catch (geocodingError) {
+      console.error("Error fetching place name:", geocodingError);
+    }
+
+  try {
+    const responses = await fetchWeatherApi(urlForecast, params);
+    const response = responses[0];
+    const utcOffsetSeconds = response.utcOffsetSeconds();
+    const current = response.current();
+    const daily = response.daily();
+    const hourly = response.hourly();
+    const localTimestamp = (Number(current.time()) + utcOffsetSeconds) * 1000;
+    const now = new Date(localTimestamp);
+    const hour = now.getUTCHours();
+    const zone = response.timezone();
+
+    const range = (start, stop, step) =>
+      Array.from({ length: (stop - start) / step }, (_, i) => start + i * step);
+
+    const weatherData = {
+      place: placeName,
+      current: {
+        time: (() => {
+          const date = new Date(Number(current.time()) * 1000);
+          return getFormattedTime(date, zone);
+        })(),
+        temperature: current.variables(0).value().toFixed(2),
+        humidity: current.variables(1).value(),
+        wind: current.variables(2).value().toFixed(2),
+        apparentTemperature: current.variables(3).value().toFixed(2),
+        pressure: current.variables(4).value().toFixed(2),
+      },
+      daily: {
+        time: range(
+          Number(daily.time()),
+          Number(daily.timeEnd()),
+          daily.interval()
+        ).map((t) => {
+          const date = new Date((t + utcOffsetSeconds) * 1000);
+          return `${date.getDate()}/${
+            date.getMonth() + 1
+          }/${date.getFullYear()}`;
+        }),
+        uv: categorizeUV(daily.variables(0).valuesArray()),
+        type: categorizeWeather(daily.variables(1).valuesArray()[0]),
+        max: daily.variables(2).valuesArray(),
+        min: daily.variables(3).valuesArray(),
+        humidity: daily.variables(4).valuesArray(),
+      },
+      hourly: {
+        temperature: hourly
+          .variables(0)
+          .valuesArray()
+          .slice(hour, hour + 5),
+        humidity: hourly
+          .variables(1)
+          .valuesArray()
+          .slice(hour, hour + 5),
+        hour: [hour, hour + 1, hour + 2, hour + 3, hour + 4],
+      },
+      day: now.toLocaleString("default", { weekday: "long" }),
+      date: getFormattedDate(now),
+      updated: getFormattedTime(new Date()),
+    };
+    res.status(200).json(weatherData);
   } catch (error) {
-    console.error("Error fetching weather data:", error);
-    res.status(500).json({ error: "Failed to fetch weather data" });
+    console.error("Error fetching default weather data:", error);
+    res.status(500).json({
+      error: "Failed to fetch weather data",
+      default: {
+        city: "Unknown",
+        temperature: "N/A",
+        humidity: "N/A",
+        windSpeed: "N/A",
+        icon: "https://openweathermap.org/img/wn/10d@2x.png",
+      },
+    });
   }
 });
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
-
-// const params = {
-// 	latitude: 52.52,
-// 	longitude: 13.41,
-// 	daily: ["uv_index_max", "temperature_2m_max", "temperature_2m_min", "weather_code"],
-// 	past_days: 1,
-// };
-
-// const url = "https://api.open-meteo.com/v1/forecast";
-// const responses = await fetchWeatherApi(url, params);
-
-// // Helper function to form time ranges
-// const range = (start, stop, step) =>
-// 	Array.from({ length: (stop - start) / step }, (_, i) => start + i * step);
-
-// // Process first location. Add a for-loop for multiple locations or weather models
-// const response = responses[0];
-
-// // Attributes for timezone and location
-// const utcOffsetSeconds = response.utcOffsetSeconds();
-// const timezone = response.timezone();
-// const timezoneAbbreviation = response.timezoneAbbreviation();
-// const latitude = response.latitude();
-// const longitude = response.longitude();
-
-// const daily = response.daily();
-
-// // Note: The order of weather variables in the URL query and the indices below need to match!
-// const weatherData = {
-// 	daily: {
-// 		time: range(Number(daily.time()), Number(daily.timeEnd()), daily.interval()).map(
-// 			(t) => new Date((t + utcOffsetSeconds) * 1000)
-// 		),
-// 		uvIndexMax: daily.variables(0).valuesArray(),
-// 		temperature2mMax: daily.variables(1).valuesArray(),
-// 		temperature2mMin: daily.variables(2).valuesArray(),
-// 		weatherCode: daily.variables(3).valuesArray(),
-// 	},
-// };
-
-// // `weatherData` now contains a simple structure with arrays for datetime and weather data
-// for (let i = 0; i < weatherData.daily.time.length; i++) {
-// 	console.log(
-// 		weatherData.daily.time[i].toISOString(),
-// 		weatherData.daily.uvIndexMax[i],
-// 		weatherData.daily.temperature2mMax[i],
-// 		weatherData.daily.temperature2mMin[i],
-// 		weatherData.daily.weatherCode[i]
-// 	);
-// }
