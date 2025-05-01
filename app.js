@@ -199,30 +199,13 @@ app.get("/", async (req, res) => {
   }
 });
 
-app.get("/api/city", async (req, res) => {
+app.post("/api/v1/city", async (req, res) => {
   const response = await axios.get(
-    `https://geocoding-api.open-meteo.com/v1/search?name=${req.query.name}&count=5&language=en&format=json`
+    `https://geocoding-api.open-meteo.com/v1/search?name=${req.body.city}&count=5&language=en&format=json`
   );
   const data = response.data;
 
-  console.log(data);
-  res.json(data);
-});
-
-app.post("/api/v1/weather", async (req, res) => {
-  try {
-    const { city } = req.body;
-    const response = await axios.get(
-      `${URL}?q=${city}&appid=${KEY}&units=metric`
-    );
-    const data = response.data;
-    console.log(data);
-
-    res.json(data);
-  } catch (error) {
-    console.error("Error fetching weather data:", error);
-    res.status(500).json({ error: "Failed to fetch weather data" });
-  }
+  res.json(data.results);
 });
 
 app.post("/api/v1/latweather", async (req, res) => {
