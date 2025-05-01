@@ -110,10 +110,15 @@ loc.addEventListener("click", getLocationAndUpdateWeather);
 
 inp.addEventListener("input", async (e) => {
   const city = e.target.value.trim();
-  if (city.length<3) {
-    suggestions.style.display = "none";
+  suggestions.innerHTML = "";
+  suggestions.style.display = "none";
+
+  if (city.length < 3) {
     return;
   }
+
+  const currentValue = inp.value.trim(); 
+
   try {
     const { data } = await axios.post(
       "/api/v1/city",
@@ -125,23 +130,35 @@ inp.addEventListener("input", async (e) => {
       }
     );
 
-    suggestions.style.display = "block";
-    suggestions.innerHTML = "";
+    if (inp.value.trim() !== currentValue || inp.value.trim().length < 3) {
+      suggestions.style.display = "none";
+      return;
+    }
+
+    if (!Array.isArray(data) || data.length === 0) {
+      suggestions.style.display = "none";
+      return;
+    }
+
     data.forEach((loc) => {
       const option = document.createElement("p");
       option.textContent = `${loc.name}, ${loc.country}`;
       option.addEventListener("click", () => {
         inp.value = `${loc.name}, ${loc.country}`;
         updateWeather(loc.latitude, loc.longitude);
-        suggestions.style.display = "none";
         suggestions.innerHTML = "";
+        suggestions.style.display = "none";
       });
       suggestions.appendChild(option);
     });
+
+    suggestions.style.display = "block";
   } catch (err) {
     console.log(err);
+    suggestions.style.display = "none";
   }
 });
+
 
 async function updateWeather(latitude, longitude) {
   try {
