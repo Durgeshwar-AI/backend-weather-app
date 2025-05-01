@@ -133,8 +133,8 @@ inp.addEventListener("input", async (e) => {
       option.addEventListener("click", () => {
         inp.value = `${loc.name}, ${loc.country}`;
         updateWeather(loc.latitude, loc.longitude);
-        suggestions.innerHTML = "";
         suggestions.style.display = "none";
+        suggestions.innerHTML = "";
       });
       suggestions.appendChild(option);
     });
