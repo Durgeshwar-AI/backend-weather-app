@@ -117,7 +117,7 @@ inp.addEventListener("input", async (e) => {
     return;
   }
 
-  const currentValue = inp.value.trim(); 
+  const currentValue = inp.value.trim();
 
   try {
     const { data } = await axios.post(
@@ -159,7 +159,6 @@ inp.addEventListener("input", async (e) => {
   }
 });
 
-
 async function updateWeather(latitude, longitude) {
   try {
     const { data } = await axios.post("/api/v1/latweather", {
@@ -173,3 +172,36 @@ async function updateWeather(latitude, longitude) {
     alert("Could not fetch weather data.");
   }
 }
+
+icon.addEventListener("click", async () => {
+  const city = inp.value.trim();
+  if (city.length < 3) {
+    return;
+  }
+  try {
+    const { data } = await axios.post(
+      "/api/v1/city",
+      { city },
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    if (!Array.isArray(data) || data.length === 0 || !data[0]) {
+      alert("No place found");
+      return;
+    }
+
+    const loc = data[0];
+    inp.value = `${loc.name}, ${loc.country}`;
+    updateWeather(loc.latitude, loc.longitude);
+    suggestions.innerHTML = "";
+    suggestions.style.display = "none";
+  } catch (err) {
+    console.log(err);
+    suggestions.innerHTML = "";
+    suggestions.style.display = "none";
+  }
+});
